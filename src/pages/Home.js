@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import {logo} from '../images'
 
 const Screen = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
+  font-family: 'Noto Sans KR', sans-serif;
 `;
 
 const Header = styled.div`
@@ -15,6 +17,62 @@ const Header = styled.div`
   height: 60px;
   box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const HeaderContent = styled.div`
+  width: 1050px;
+  //background-color: red;  
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const LogoImage = styled.img.attrs({
+  src: logo
+  })`
+  height: 35px;
+`
+
+const LoginForm = styled.form`
+`
+
+const IDInputBox = styled.input`
+  height: 20px;
+  width: 110px;
+  margin-left: 15px;
+  
+  &:active,
+  &:focus {
+    outline: none;
+  }
+`;
+
+const PWInputBox = styled.input`
+  height: 20px;
+  width: 110px;
+  margin-left: 15px;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+`;
+
+const LoginButton = styled.input`
+  height: 20px;
+  width: 50px;
+  margin-left: 15px;
+  
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Container = styled.div`
@@ -36,6 +94,9 @@ const MovieArea = styled.div`
 
 const MovieHeader = styled.div`
    width: 890px;
+   font-size: 20px;
+   //color: rgb(116,96,175);
+   //font-weight: 500;
 `;
 
 const MovieImageArea = styled.div`
@@ -50,7 +111,6 @@ const MovieImage = styled.img`
   width: 207px;
   height: 302px;
   margin: 10px;
-  cursor: pointer;
   
   user-drag: none; 
   user-select: none;
@@ -71,6 +131,8 @@ const NetflixArea = styled.div`
 
 const NetflixHeader = styled.div`
    width: 900px;
+   // color: rgb(116,96,175);
+   font-size: 20px;
 `;
 
 const NetflixImageArea = styled.div`
@@ -85,7 +147,6 @@ const NetflixImage = styled.img`
   width: 210px;
   height: 120px;
   margin: 10px;
-  cursor: pointer;
   user-drag: none; 
   user-select: none;
   -moz-user-select: none;
@@ -105,6 +166,8 @@ const MusicArea = styled.div`
 
 const MusicHeader = styled.div`
    width: 980px;
+   // color: rgb(116,96,175);   
+   font-size: 20px;
 `;
 
 const MusicImageArea = styled.div`
@@ -119,7 +182,6 @@ const MusicImage = styled.img`
   width: 180px;
   height: 180px;
   margin: 10px;
-  cursor: pointer;
   user-drag: none; 
   user-select: none;
   -moz-user-select: none;
@@ -157,7 +219,16 @@ const Home = () => {
 
   return (
     <Screen>
-      <Header></Header>
+      <Header>
+        <HeaderContent>
+          <LogoImage/>
+          <LoginForm>
+            <PWInputBox type="text" placeholder={"ID"}/>
+            <IDInputBox type="text" placeholder={"PASSWORD"}/>
+            <LoginButton type="submit" value={"로그인"}/>
+          </LoginForm>
+       </HeaderContent>
+      </Header>
       <Container>
         <MovieArea>
           <MovieHeader>현재 상영중인 영화</MovieHeader>
@@ -187,7 +258,9 @@ const Home = () => {
           </MusicHeader>
           <MusicImageArea>
             {musicImgSrc.map(imgSrc =>
-              <MusicImage src={imgSrc}/>
+              <a href="#">
+                <MusicImage src={imgSrc}/>
+              </a>
             )}
           </MusicImageArea>
         </MusicArea>
