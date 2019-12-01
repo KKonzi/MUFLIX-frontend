@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {logo} from '../images'
+import {logo,leftArrow,rightArrow} from '../images'
 
 const Screen = styled.div`
   display: flex;
@@ -21,6 +21,7 @@ const Header = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 `;
 
 const HeaderContent = styled.div`
@@ -38,41 +39,56 @@ const LogoImage = styled.img.attrs({
   height: 35px;
 `
 
-const LoginForm = styled.form`
+const LoginForm = styled.div`
+  display: flex;
 `
 
-const IDInputBox = styled.input`
+const IDInputBox = styled.input.attrs({
+  type: 'text'
+})`
   height: 20px;
   width: 110px;
   margin-left: 15px;
-  
+
+  border: 1px solid lightgrey;
   &:active,
   &:focus {
     outline: none;
   }
 `;
 
-const PWInputBox = styled.input`
+const PWInputBox = styled.input.attrs({
+  type: 'password'
+})`
   height: 20px;
   width: 110px;
   margin-left: 15px;
-
+  border: 1px solid lightgrey;
   &:active,
   &:focus {
     outline: none;
   }
 `;
 
-const LoginButton = styled.input`
-  height: 20px;
+const LoginButton = styled.div`
+  margin-left: 15px;
+  height: 18px; 
   width: 50px;
-  margin-left: 15px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
   
-
-  &:active,
-  &:focus {
-    outline: none;
-  }
+  padding-top: 2px;
+  letter-spacing: -0.7px;
+  
+  display-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+  font-size: 11px;
+  color: #2e2e2e;
+  
+  cursor: pointer;
 `;
 
 const Container = styled.div`
@@ -90,13 +106,39 @@ const MovieArea = styled.div`
    justify-content: center;
    align-items: center;
    margin-top: 70px;
+   position: relative;
 `;
 
 const MovieHeader = styled.div`
    width: 890px;
    font-size: 20px;
-   //color: rgb(116,96,175);
-   //font-weight: 500;
+   color: #4e4e4e;   
+  font-weight: 500;
+
+`;
+
+const MovieLeftArrow = styled.img.attrs({
+  src: leftArrow
+})`
+  position: absolute;
+  top: 158px;
+  left: 110px;
+  
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+`;
+
+const MovieRightArrow = styled.img.attrs({
+  src: rightArrow
+})`
+  position: absolute;
+  top: 158px;
+  right: 110px;
+  
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
 `;
 
 const MovieImageArea = styled.div`
@@ -127,12 +169,40 @@ const NetflixArea = styled.div`
    justify-content: center;
    align-items: center;
    margin-top: 50px;
+   position: relative;
 `;
 
 const NetflixHeader = styled.div`
    width: 900px;
-   // color: rgb(116,96,175);
-   font-size: 20px;
+  color: #4e4e4e;   
+  font-size: 20px;
+  font-weight: 500;
+`;
+
+const NetFlixLeftArrow = styled.img.attrs({
+  src: leftArrow
+})`
+  position: absolute;
+  top: 155px;
+  left: 100px;
+  
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+
+`;
+
+const NetFlixRightArrow = styled.img.attrs({
+  src: rightArrow
+})`
+  position: absolute;
+  top: 155px;
+  right: 100px;
+  
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  
 `;
 
 const NetflixImageArea = styled.div`
@@ -162,12 +232,40 @@ const MusicArea = styled.div`
    justify-content: center;
    align-items: center;
    margin-top: 50px;
+   position: relative;
 `;
 
 const MusicHeader = styled.div`
    width: 980px;
-   // color: rgb(116,96,175);   
+   color: #4e4e4e;
    font-size: 20px;
+   font-weight: 500;
+`;
+
+const MusicLeftArrow = styled.img.attrs({
+  src: leftArrow
+})`
+  position: absolute;
+  top: 100px;
+  left: 60px;
+  
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+
+`;
+
+const MusicRightArrow = styled.img.attrs({
+  src: rightArrow
+})`
+  position: absolute;
+  top: 100px;
+  right: 60px;
+  
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+
 `;
 
 const MusicImageArea = styled.div`
@@ -191,6 +289,10 @@ const MusicImage = styled.img`
 `;
 
 const Home = () => {
+  let movieCount = 0;
+  let netflixCount = 0;
+  let musicCount = 0;
+
   const movieImgSrc = [
     `http://image2.megabox.co.kr/mop/poster/2019/37/FC0155-CBED-48D6-B4F8-0F686D79CE86.large.jpg`,
     `http://image2.megabox.co.kr/mop/poster/2019/9C/551031-55AA-44A4-A56B-DD5C99114721.large.jpg`,
@@ -223,15 +325,17 @@ const Home = () => {
         <HeaderContent>
           <LogoImage/>
           <LoginForm>
-            <PWInputBox type="text" placeholder={"ID"}/>
-            <IDInputBox type="text" placeholder={"PASSWORD"}/>
-            <LoginButton type="submit" value={"로그인"}/>
+            <IDInputBox type="password" placeholder={"ID"}/>
+            <PWInputBox type="text" placeholder={"PASSWORD"}/>
+            <LoginButton>로그인</LoginButton>
           </LoginForm>
        </HeaderContent>
       </Header>
       <Container>
         <MovieArea>
           <MovieHeader>현재 상영중인 영화</MovieHeader>
+          <MovieLeftArrow style={{opacity: (movieCount===0?0.5:1)}}/>
+          <MovieRightArrow/>
           <MovieImageArea>
             {movieImgSrc.map(imgSrc =>
               <MovieImage src={imgSrc}/>
@@ -243,6 +347,8 @@ const Home = () => {
           <NetflixHeader>
             당신을 위한 추천 넷플릭스 영상
           </NetflixHeader>
+          <NetFlixLeftArrow style={{opacity: (movieCount===0?0.5:1)}}/>
+          <NetFlixRightArrow/>
           <NetflixImageArea>
             {netflixImgSrc.map(imgSrc =>
               <a href={`https://www.netflix.com/title/${80204927}`} target={`blank`}>
@@ -256,6 +362,8 @@ const Home = () => {
           <MusicHeader>
             당신이 본 영화의 OST, 들어 보셨나요?
           </MusicHeader>
+          <MusicLeftArrow style={{opacity: (movieCount===0?0.5:1)}}/>
+          <MusicRightArrow/>
           <MusicImageArea>
             {musicImgSrc.map(imgSrc =>
               <a href="#">
