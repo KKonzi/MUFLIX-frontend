@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {leftArrow,rightArrow} from '../images';
 import Header from './components/Header';
+import MovieModal from './components/MovieModal';
 
 const Screen = styled.div`
   display: flex;
@@ -79,6 +80,8 @@ const MovieImage = styled.img`
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  
+  cursor: pointer;
 `;
 
 const NetflixArea = styled.div`
@@ -142,6 +145,8 @@ const NetflixImage = styled.img`
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  
+  cursor: pointer;
 `;
 
 const MusicArea = styled.div`
@@ -205,9 +210,12 @@ const MusicImage = styled.img`
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  cursor: pointer;
 `;
 
 const Home = () => {
+  const [isModalOpen, setModalState] = useState(false);
+
   let movieCount = 0;
   let netflixCount = 0;
   let musicCount = 0;
@@ -238,6 +246,14 @@ const Home = () => {
     `https://musicmeta-phinf.pstatic.net/album/002/566/2566992.jpg?type=r204Fll&v=20191108013210`,
   ];
 
+  const openMovieModal = (movieId) => {
+    setModalState(true);
+  };
+
+  const closeMovieModal = () => {
+    setModalState(false);
+  };
+
   return (
     <Screen>
       <Header/>
@@ -248,7 +264,7 @@ const Home = () => {
           <MovieRightArrow/>
           <MovieImageArea>
             {movieImgSrc.map(imgSrc =>
-              <MovieImage src={imgSrc}/>
+              <MovieImage src={imgSrc} onClick={()=>{openMovieModal(1)}}/>
             )}
           </MovieImageArea>
         </MovieArea>
@@ -284,7 +300,7 @@ const Home = () => {
         </MusicArea>
       </Container>
 
-
+      <MovieModal isOpen={isModalOpen} close={closeMovieModal}/>
     </Screen>
   );
 };
