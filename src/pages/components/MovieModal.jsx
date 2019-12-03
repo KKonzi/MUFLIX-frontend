@@ -11,7 +11,7 @@ const ModalOverlay = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0,0,0,0.16);
+  background-color: rgba(0,0,0,0.6);
   z-index: 100;
 `;
 
@@ -20,8 +20,7 @@ const ModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 400px;
-  width: 65%;
+  width: 1000px;
   
   max-height: 800px;
   overflow-y: auto;
@@ -73,7 +72,7 @@ const MovieTitle = styled.div`
   padding: 15px 0;
   border-bottom: 1px solid lightgrey;
   margin-bottom: 15px;
-  width: 700px;
+  width: 650px;
 `;
 
 const OpenDate = styled.div`
@@ -94,6 +93,66 @@ const RunningTime = styled.div`
 const Summary = styled.div`
 `;
 
+const CommentContainer = styled.div`
+  margin-top: 30px;
+  padding: 0px 40px 60px 40px;
+  width: calc(100% - 80px);
+  
+  display: flex;
+  flex-direction: column;
+`;
+
+const UserCommentInputArea = styled.div`
+  width: 100%
+  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
+  height: 140px;
+  
+  display: flex;
+  align-items: center;
+`;
+
+const UserInfoArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  
+`;
+
+const UserId = styled.div`
+
+`;
+
+const StarContainer = styled.div`
+  
+`;
+
+const CommentInputArea = styled.textarea`
+  height: 100px;
+  width: 650px;
+  border: 1px solid lightgrey;
+  resize: none;
+  font-size: 14px;
+  
+  &:active,
+  &:focus {
+    outline: none;
+  };
+`;
+
+const CommentSubmitButton = styled.div`
+  height: 40px;
+  width: 90px; //118
+  background-color: lightgrey;
+  margin-left: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  color: #2e2e2e;
+`;
 
 const MovieModal = ({isOpen,close}) => {
 
@@ -139,8 +198,18 @@ const MovieModal = ({isOpen,close}) => {
                     {summary}
                   </Summary>
                 </MovieDetailContainer>
-
               </MovieInfoContainer>
+              <CommentContainer>
+                <UserCommentInputArea>
+                  <UserInfoArea>
+                    <UserId>KKonzi</UserId>
+                    <StarContainer>★★★★★</StarContainer>
+                  </UserInfoArea>
+                  <CommentInputArea/>
+                  <CommentSubmitButton>등록</CommentSubmitButton>
+                </UserCommentInputArea>
+
+              </CommentContainer>
 
               <CloseButton onClick={close}/>
             </ModalContainer>
