@@ -30,9 +30,9 @@ const MovieArea = styled.div`
 `;
 
 const MovieHeader = styled.div`
-   width: 890px;
+  width: 890px;
   font-size: 20px;
-   color: #4e4e4e;   
+  color: white;   
   font-weight: 500;
 `;
 
@@ -95,7 +95,7 @@ const NetflixArea = styled.div`
 
 const NetflixHeader = styled.div`
    width: 900px;
-  color: #4e4e4e;   
+  color: white;   
   font-size: 20px;
   font-weight: 500;
 `;
@@ -160,7 +160,7 @@ const MusicArea = styled.div`
 
 const MusicHeader = styled.div`
    width: 980px;
-   color: #4e4e4e;
+   color: white;
    font-size: 20px;
    font-weight: 500;
 `;

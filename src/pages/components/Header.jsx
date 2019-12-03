@@ -8,9 +8,7 @@ const HeaderContainer = styled.div`
   top: 0;
   width: 100%;
   height: 60px;
-  box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-  
+  background-color: #161616;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,7 +77,7 @@ const LoginButton = styled.div`
   text-align: center;
   
   font-size: 11px;
-  color: #2e2e2e;
+  color: white;
   
   cursor: pointer;
 `;
