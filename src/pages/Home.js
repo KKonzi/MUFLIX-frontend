@@ -31,10 +31,9 @@ const MovieArea = styled.div`
 
 const MovieHeader = styled.div`
    width: 890px;
-   font-size: 20px;
+  font-size: 20px;
    color: #4e4e4e;   
   font-weight: 500;
-
 `;
 
 const MovieLeftArrow = styled.img.attrs({
