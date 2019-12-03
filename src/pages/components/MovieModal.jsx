@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {closeButton} from '../../images';
 
@@ -58,6 +58,7 @@ const MovieDetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 30px;
+  font-weight: 300;
 `;
 
 const DetailText = styled.h3`
@@ -69,7 +70,7 @@ const DetailText = styled.h3`
 const MovieTitle = styled.div`
   font-size: 30px;
   font-weight: bold;
-  padding: 15px 0;
+  padding: 10px 0 15px 0;
   border-bottom: 1px solid lightgrey;
   margin-bottom: 15px;
   width: 650px;
@@ -91,6 +92,7 @@ const RunningTime = styled.div`
 `;
 
 const Summary = styled.div`
+  margin-top: 8px;
 `;
 
 const CommentContainer = styled.div`
@@ -122,19 +124,33 @@ const UserInfoArea = styled.div`
 `;
 
 const UserId = styled.div`
-
+  font-wight: 500px;
+  color: #2e2e2e;
+  font-size: 18px;
 `;
 
-const StarContainer = styled.div`
+const StarContainer = styled.select`
+  margin-top: 10px;
+  width: 100px;
+  height: 30px;
   
+  &:active,
+  &:focus {
+    outline: none;
+  };
 `;
+
+const StarIcon = styled.i`
+  color: rgb(229,176,93);
+`
 
 const CommentInputArea = styled.textarea`
   height: 100px;
   width: 650px;
   border: 1px solid lightgrey;
   resize: none;
-  font-size: 14px;
+  font-size: 15px;
+  
   
   &:active,
   &:focus {
@@ -152,6 +168,37 @@ const CommentSubmitButton = styled.div`
   justify-content: center;
   
   color: #2e2e2e;
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.3);
+  border-radius: 6px;
+  cursor: pointer;
+`;
+
+const MovieCommentArea = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const CommentBox = styled.div`
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+`;
+
+const CommentUserInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+`;
+
+const CommentContent = styled.div`
+  font-weight: 300;
+  width: 770px;
+`
+
+const CommentStar = styled.div`
+
 `;
 
 const MovieModal = ({isOpen,close}) => {
@@ -168,7 +215,15 @@ const MovieModal = ({isOpen,close}) => {
     자신의 힘을 두려워했던 엘사는 이제 이 모험을 헤쳐나가기에 자신의 힘이 충분하다고 믿어야만 하는데…
     
     11월, 두려움을 깨고 새로운 운명을 만나다!
+    
   `;
+
+  const [starRate, setStarRate] = useState(5);
+
+  const onsStarSelectChange = (event) => {
+    console.log('change value', event.target.value);
+    setStarRate(event.target.value);
+  };
 
   return (
     <div>
@@ -176,7 +231,10 @@ const MovieModal = ({isOpen,close}) => {
         isOpen ?
           <ModalWrapper>
             <ModalOverlay/>
+
             <ModalContainer>
+              <CloseButton onClick={close}/>
+
               <MovieInfoContainer>
                 <MovieImage src={`http://image2.megabox.co.kr/mop/poster/2019/37/FC0155-CBED-48D6-B4F8-0F686D79CE86.large.jpg`}/>
                 <MovieDetailContainer>
@@ -199,19 +257,56 @@ const MovieModal = ({isOpen,close}) => {
                   </Summary>
                 </MovieDetailContainer>
               </MovieInfoContainer>
+
               <CommentContainer>
                 <UserCommentInputArea>
                   <UserInfoArea>
                     <UserId>KKonzi</UserId>
-                    <StarContainer>★★★★★</StarContainer>
+                    <StarContainer onChange={(e) => {onsStarSelectChange(e)}} defaultValue={5}>
+                      <option value={1}>★</option>
+                      <option value={2}>★★</option>
+                      <option value={3}>★★★</option>
+                      <option value={4}>★★★★</option>
+                      <option value={5}>★★★★★</option>
+                    </StarContainer>
                   </UserInfoArea>
                   <CommentInputArea/>
                   <CommentSubmitButton>등록</CommentSubmitButton>
                 </UserCommentInputArea>
 
+                <MovieCommentArea>
+
+                  <CommentBox>
+                    <CommentUserInfo>
+                      <UserId>KKonzi</UserId>
+                      <CommentStar>
+                        <StarIcon className="fas fa-star"/>
+                        <StarIcon className="fas fa-star"/>
+                        <StarIcon className="fas fa-star"/>
+                        <StarIcon className="fas fa-star"/>
+                        <StarIcon className="fas fa-star"/>
+                      </CommentStar>
+                    </CommentUserInfo>
+                    <CommentContent>{summary}</CommentContent>
+                  </CommentBox>
+
+                  <CommentBox>
+                    <CommentUserInfo>
+                      <UserId>KKonzi</UserId>
+                      <CommentStar>
+                        <StarIcon className="fas fa-star"/>
+                        <StarIcon className="fas fa-star"/>
+                        <StarIcon className="fas fa-star"/>
+                        <StarIcon className="fas fa-star"/>
+                        <StarIcon className="fas fa-star"/>
+                      </CommentStar>
+                    </CommentUserInfo>
+                    <CommentContent>{summary}{summary}</CommentContent>
+                  </CommentBox>
+                </MovieCommentArea>
               </CommentContainer>
 
-              <CloseButton onClick={close}/>
+
             </ModalContainer>
           </ModalWrapper>
         : null

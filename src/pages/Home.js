@@ -17,6 +17,8 @@ const Container = styled.div`
    flex-direction: column;
    justify-content: center;
    align-items: center;
+   margin-top: 75px;
+   margin-bottom: 100px;
 `;
 
 const MovieArea = styled.div`
@@ -25,7 +27,6 @@ const MovieArea = styled.div`
    flex-direction: column;
    justify-content: center;
    align-items: center;
-   margin-top: 70px;
    position: relative;
 `;
 
