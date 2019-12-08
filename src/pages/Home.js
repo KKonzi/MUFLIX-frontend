@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import {leftArrow,rightArrow} from '../images';
 import Header from './components/Header';
 import MovieModal from './components/MovieModal';
+import {movieImgSrc, netflixImgSrc, musicImgSrc} from './data'
+
 
 const Screen = styled.div`
   display: flex;
@@ -215,36 +217,10 @@ const MusicImage = styled.img`
 
 const Home = () => {
   const [isModalOpen, setModalState] = useState(false);
+  const [movieCount, setMovieCount] = useState(0);
+  const [netflixCount, setNetflixCount] = useState(0);
+  const [musicCount, setMusicCount] = useState(0);
 
-  let movieCount = 0;
-  let netflixCount = 0;
-  let musicCount = 0;
-
-  const movieImgSrc = [
-    `http://image2.megabox.co.kr/mop/poster/2019/37/FC0155-CBED-48D6-B4F8-0F686D79CE86.large.jpg`,
-    `http://image2.megabox.co.kr/mop/poster/2019/9C/551031-55AA-44A4-A56B-DD5C99114721.large.jpg`,
-    `http://image2.megabox.co.kr/mop/poster/2019/0C/14F5EA-C805-42F0-83C9-A91FE7721B7A.large.jpg`,
-    `http://image2.megabox.co.kr/mop/poster/2019/1D/A14577-C8BF-4416-9CD8-21433730A1EA.large.jpg`,
-  ];
-
-  const netflixImgSrc = [
-    `https://occ-0-993-988.1.nflxso.net/dnm/api/v6/0DW6CdE4gYtYx8iy3aj8gs9WtXE/AAAABXNfXIeYCuLs9ohoqxxTLZxq9H6Sue_d3sztJSitWkKGZHeja4UFUYHOOpEFo-ntRv7ekEGAb0uQF2lfVEcfukhCB4o.webp?r=fcd`,
-    `https://occ-0-993-988.1.nflxso.net/dnm/api/v6/0DW6CdE4gYtYx8iy3aj8gs9WtXE/AAAABVBI7WtjpCxvI0wwaA9sFPqbSBp_JklkcnH4I5kWvrOE0MNrrwn9cNeUlEiyGuPBc8D9SdhcfOQLyOrTutlMLJoxzdGBWXydfE9XDo8vgqIumKjmko_jerGy_tJs.jpg?r=79e`,
-    `https://occ-0-993-988.1.nflxso.net/dnm/api/v6/0DW6CdE4gYtYx8iy3aj8gs9WtXE/AAAABYvl-pyVDFhqN7ks-vaJumWWK16jowq8QtxmpS279LaE27UAh04fTgwm1ERyJCoJsEM7KjerL_aAgcpEFE7H7BEV9mMr9HmSzM-UV0PzH-deWokW27xIxJlyHQrl.jpg?r=58d`,
-    `https://occ-0-993-988.1.nflxso.net/dnm/api/v6/0DW6CdE4gYtYx8iy3aj8gs9WtXE/AAAABdfZSymn-nYzFNtXR35cKtsCFQZSRXcNRN6X4anYtBJ-NipWSYBRVIYlEesAzjpLIVXDPpBytj03cfB55RHR_0UTFZM.webp?r=a06`,
-    `https://occ-0-993-988.1.nflxso.net/dnm/api/v6/0DW6CdE4gYtYx8iy3aj8gs9WtXE/AAAABZkigP2t3D49Ilz4qaU3Sqy4ooqeBsCJ42MriNXptnULygWjADjI3DENUZWTo_0yLfd0ZQ0T6mC6wnabiHsk9flQ98M-A6MuhrF-pdC7TLdTaZoDN5QUXKeLIqWg.jpg?r=a72`,
-    `https://occ-0-993-988.1.nflxso.net/dnm/api/v6/0DW6CdE4gYtYx8iy3aj8gs9WtXE/AAAABSdRt7iG0WbUmoBonVmSPfkA0DNOubx7uLK7vJr5Ejs26p1dkXpmE-FpPhD9PcONoGH-daBwIJeHyFzvAyMF-9sjMD4.webp?r=384`,
-    `https://occ-0-993-988.1.nflxso.net/dnm/api/v6/0DW6CdE4gYtYx8iy3aj8gs9WtXE/AAAABeveVU0HijfVOvPWZOst2uI30wcy4c3gpc5ZDKPF2QxlO8PpTP4nPx8gVhHm8GZmdQma40mBsSZjRoeCtIT0VvuVeCc.webp?r=dff`,
-    `https://occ-0-993-988.1.nflxso.net/dnm/api/v6/0DW6CdE4gYtYx8iy3aj8gs9WtXE/AAAABTG1sKQgLeIUK0kc2GUfEfnEMeHhlwouZs2C8Qi-ovrtWyVbz-bNt3SNVfUGkkFXngk07tuVHhgt7crlbWq7Dua3CsHcTfxvM5lNQcmB-F_3t2LFUXLygACD401a.jpg?r=89f`,
-  ];
-
-  const musicImgSrc = [
-    `https://musicmeta-phinf.pstatic.net/album/000/439/439225.jpg?type=r204Fll&v=20190523034503`,
-    `https://musicmeta-phinf.pstatic.net/album/003/056/3056861.jpg?type=r204Fll&v=20191111230709`,
-    `https://musicmeta-phinf.pstatic.net/album/000/411/411459.jpg?type=r204Fll&v=20191107011311`,
-    `https://musicmeta-phinf.pstatic.net/album/001/772/1772995.jpg?type=r204Fll&v=20190606213218`,
-    `https://musicmeta-phinf.pstatic.net/album/002/566/2566992.jpg?type=r204Fll&v=20191108013210`,
-  ];
 
   const openMovieModal = (movieId) => {
     setModalState(true);
@@ -254,16 +230,24 @@ const Home = () => {
     setModalState(false);
   };
 
+
+
   return (
     <Screen>
       <Header/>
       <Container>
         <MovieArea>
           <MovieHeader>현재 상영중인 영화</MovieHeader>
-          <MovieLeftArrow style={{opacity: (movieCount===0?0.5:1)}}/>
-          <MovieRightArrow/>
+          <MovieLeftArrow
+            style={{opacity: (!movieCount?0.5:1)}}
+            onClick={() => {movieCount && setMovieCount(0)}}
+          />
+          <MovieRightArrow
+            style={{opacity: (movieCount?0.5:1)}}
+            onClick={() => {!movieCount && setMovieCount(4)}}
+          />
           <MovieImageArea>
-            {movieImgSrc.map(imgSrc =>
+            {movieImgSrc.slice(movieCount,movieCount+4).map(imgSrc =>
               <MovieImage src={imgSrc} onClick={()=>{openMovieModal(1)}}/>
             )}
           </MovieImageArea>
@@ -273,14 +257,22 @@ const Home = () => {
           <NetflixHeader>
             당신을 위한 추천 넷플릭스 영상
           </NetflixHeader>
-          <NetFlixLeftArrow style={{opacity: (movieCount===0?0.5:1)}}/>
-          <NetFlixRightArrow/>
+          <NetFlixLeftArrow
+            style={{opacity: (!netflixCount?0.5:1)}}
+            onClick={() => {netflixCount && setNetflixCount(netflixCount-8)}}
+          />
+          <NetFlixRightArrow
+            style={{opacity: (netflixCount===16?0.5:1)}}
+            onClick={() => {netflixCount===16 ? setNetflixCount(0) : setNetflixCount(netflixCount+8)}}
+          />
           <NetflixImageArea>
-            {netflixImgSrc.map(imgSrc =>
+            {
+              netflixImgSrc.slice(netflixCount,netflixCount+8).map(imgSrc =>
               <a href={`https://www.netflix.com/title/${80204927}`} target={`blank`}>
                 <NetflixImage src={imgSrc} video_id={`80204927`}/>
               </a>
-            )}
+              )
+            }
           </NetflixImageArea>
         </NetflixArea>
 
@@ -288,11 +280,17 @@ const Home = () => {
           <MusicHeader>
             당신이 본 영화의 OST, 들어 보셨나요?
           </MusicHeader>
-          <MusicLeftArrow style={{opacity: (movieCount===0?0.5:1)}}/>
-          <MusicRightArrow/>
+          <MusicLeftArrow
+            style={{opacity: (!musicCount?0.5:1)}}
+            onClick={() => {musicCount && setMusicCount(0)}}
+          />
+          <MusicRightArrow
+            style={{opacity: (musicCount?0.5:1)}}
+            onClick={() => {!musicCount && setMusicCount(5)}}
+          />
           <MusicImageArea>
-            {musicImgSrc.map(imgSrc =>
-              <a href="#">
+            {musicImgSrc.slice(musicCount,musicCount+5).map(imgSrc =>
+              <a href="https://music.naver.com">
                 <MusicImage src={imgSrc}/>
               </a>
             )}
