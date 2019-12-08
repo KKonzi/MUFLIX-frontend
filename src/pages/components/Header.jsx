@@ -101,20 +101,29 @@ const WelcomeUserText = styled.div`
 
 const Header = () => {
   const [showLoginLoader, setLoginLoader] = useState(false);
-  const [isLogined, setLoginStatus] = useState(false);
-  const [idValue, setIdValue] = useState('');
-  const [pwValue, setPwValue] = useState('');
-
-
+  const [isLogined, setLoginStatus] = useState(localStorage.MuflixLoginStatus===undefined ? false : localStorage.MuflixLoginStatus);
+  const [idValue, setIdValue] = useState(localStorage.MuflixLoginId===undefined ? false : localStorage.MuflixLoginId);
+  const [pwValue, setPwValue] = useState('1234');
 
   const onClickLoginButton = () => {
     console.log('login',idValue,pwValue);
     setLoginLoader(true);
+
     setTimeout(()=> {
       setLoginLoader(false);
+
       setLoginStatus(true);
+      localStorage.MuflixLoginStatus = true;
+      localStorage.MuflixLoginId = idValue;
       // window.location.reload();
     },1200)
+  };
+  const onClickLogoutButton = () => {
+    console.log('logout');
+
+    setLoginStatus(false);
+    localStorage.MuflixLoginStatus = false;
+    localStorage.MuflixLoginId = '';
   };
 
   return (
@@ -126,7 +135,7 @@ const Header = () => {
             <LoginedUserContent>
               <WelcomeUserText>{idValue}님 환영합니다!</WelcomeUserText>
               <HeaderButton>MY PAGE</HeaderButton>
-              <HeaderButton>로그아웃</HeaderButton>
+              <HeaderButton onClick={onClickLogoutButton}>로그아웃</HeaderButton>
             </LoginedUserContent>
           :  <LoginForm>
                 <IDInputBox type="password" placeholder={"ID"} onChange={(e)=>setIdValue(e.target.value)}/>
@@ -136,7 +145,7 @@ const Header = () => {
                     <HeaderButton onClick={onClickLoginButton}>로그인</HeaderButton>
                     : <LoginLoader
                       className="fas fa-spinner fa-pulse"
-                      style={{color: 'white', position: 'absolute', top: 22, right: 82}}/>
+                      style={{color: 'white', position: 'absolute', top: 22, right: 260}}/>
                 }
               </LoginForm>
         }

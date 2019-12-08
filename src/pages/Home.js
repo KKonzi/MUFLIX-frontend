@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import {leftArrow,rightArrow} from '../images';
 import Header from './components/Header';
@@ -221,6 +221,12 @@ const Home = () => {
   const [netflixCount, setNetflixCount] = useState(0);
   const [musicCount, setMusicCount] = useState(0);
 
+  useEffect(() => {
+    if(localStorage.MuflixLoginStatus === undefined) {
+      localStorage.MuflixLoginStatus = false;
+      localStorage.MuflixLoginId = '';
+    }
+  }, []);
 
   const openMovieModal = (movieId) => {
     setModalState(true);
