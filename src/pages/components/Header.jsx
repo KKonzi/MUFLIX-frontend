@@ -13,6 +13,7 @@ const HeaderContainer = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 10;
+  font-family: 'Noto Sans KR', sans-serif;
 `;
 
 const HeaderContent = styled.div`
@@ -61,7 +62,7 @@ const PWInputBox = styled.input.attrs({
   }
 `;
 
-const LoginButton = styled.div`
+const HeaderButton = styled.div`
   margin-left: 15px;
   height: 18px; 
   width: 50px;
@@ -86,35 +87,60 @@ const LoginLoader = styled.i`
 
 `;
 
+const LoginedUserContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+`
 
+const WelcomeUserText = styled.div`
+  color: white;
+  font-size: 14px;
+`;
 
 const Header = () => {
   const [showLoginLoader, setLoginLoader] = useState(false);
+  const [isLogined, setLoginStatus] = useState(false);
+  const [idValue, setIdValue] = useState('');
+  const [pwValue, setPwValue] = useState('');
+
+
 
   const onClickLoginButton = () => {
-    console.log('login');
+    console.log('login',idValue,pwValue);
     setLoginLoader(true);
     setTimeout(()=> {
       setLoginLoader(false);
-      window.location.reload();
-    },1500)
+      setLoginStatus(true);
+      // window.location.reload();
+    },1200)
   };
 
   return (
     <HeaderContainer>
       <HeaderContent>
         <LogoImage/>
-        <LoginForm>
-          <IDInputBox type="password" placeholder={"ID"}/>
-          <PWInputBox type="text" placeholder={"PASSWORD"}/>
-          <LoginButton onClick={onClickLoginButton}>로그인</LoginButton>
-          {
-            showLoginLoader&&
-            <LoginLoader
-              className="fas fa-spinner fa-pulse"
-              style={{color: 'white', position: 'absolute', top: 22, right: 82}}/>
-          }
-        </LoginForm>
+        {
+          isLogined ?
+            <LoginedUserContent>
+              <WelcomeUserText>{idValue}님 환영합니다!</WelcomeUserText>
+              <HeaderButton>MY PAGE</HeaderButton>
+              <HeaderButton>로그아웃</HeaderButton>
+            </LoginedUserContent>
+          :  <LoginForm>
+                <IDInputBox type="password" placeholder={"ID"} onChange={(e)=>setIdValue(e.target.value)}/>
+                <PWInputBox type="text" placeholder={"PASSWORD"} onChange={(e)=>setPwValue(e.target.value)}/>
+                {
+                  !showLoginLoader ?
+                    <HeaderButton onClick={onClickLoginButton}>로그인</HeaderButton>
+                    : <LoginLoader
+                      className="fas fa-spinner fa-pulse"
+                      style={{color: 'white', position: 'absolute', top: 22, right: 82}}/>
+                }
+              </LoginForm>
+        }
+
       </HeaderContent>
     </HeaderContainer>
   );
