@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import {closeButton} from '../../images';
+import {closeButton, happyIcon, sadIcon} from '../../images';
 
 const ModalWrapper = styled.div`
 `
@@ -66,14 +66,66 @@ const DetailText = styled.h3`
   font-size: 16px;
   margin-right: 10px;
 `;
-
-const MovieTitle = styled.div`
-  font-size: 30px;
-  font-weight: bold;
+const MovieDetailContainerHeader = styled.div`
   padding: 10px 0 15px 0;
   border-bottom: 1px solid lightgrey;
   margin-bottom: 15px;
   width: 650px;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const MovieTitle = styled.div`
+  font-size: 30px;
+  font-weight: bold;
+
+`;
+
+const PreferenceButtonsContainer = styled.div`
+  display: flex;
+  color: #2e2e2e;
+  font-weight: 400;
+`;
+
+const HappyButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  padding: 4px
+  border: 1px solid rgb(235,80,62);
+  border-radius: 6px;
+  margin-right: 8px;
+  cursor: pointer;
+`;
+
+const HappyIcon = styled.img.attrs({
+  src: happyIcon
+})`
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+`
+
+const SadButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  padding: 4px
+  border: 1px solid rgb(76,166,233);
+  border-radius: 6px;
+  cursor: pointer;
+`;
+
+const SadIcon = styled.img.attrs({
+  src: sadIcon
+})`
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
 `;
 
 const OpenDate = styled.div`
@@ -238,7 +290,20 @@ const MovieModal = ({isOpen,close}) => {
               <MovieInfoContainer>
                 <MovieImage src={`http://image2.megabox.co.kr/mop/poster/2019/37/FC0155-CBED-48D6-B4F8-0F686D79CE86.large.jpg`}/>
                 <MovieDetailContainer>
-                  <MovieTitle>겨울왕국2</MovieTitle>
+                  <MovieDetailContainerHeader>
+                    <MovieTitle>겨울왕국2</MovieTitle>
+                    <PreferenceButtonsContainer>
+                      <HappyButton>
+                        <HappyIcon/>
+                        재미있게 봤어요!
+                      </HappyButton>
+                      <SadButton>
+                        <SadIcon/>
+                        제취향은 아니에요
+                      </SadButton>
+                    </PreferenceButtonsContainer>
+                  </MovieDetailContainerHeader>
+
                   <OpenDate>
                     <DetailText>개봉일</DetailText>
                     2019.11.21
