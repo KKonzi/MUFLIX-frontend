@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {logo,leftArrow,rightArrow} from '../../images'
 
@@ -82,8 +82,23 @@ const LoginButton = styled.div`
   cursor: pointer;
 `;
 
+const LoginLoader = styled.i`
+
+`;
+
+
 
 const Header = () => {
+  const [showLoginLoader, setLoginLoader] = useState(false);
+
+  const onClickLoginButton = () => {
+    console.log('login');
+    setLoginLoader(true);
+    setTimeout(()=> {
+      setLoginLoader(false);
+      window.location.reload();
+    },1500)
+  };
 
   return (
     <HeaderContainer>
@@ -92,7 +107,13 @@ const Header = () => {
         <LoginForm>
           <IDInputBox type="password" placeholder={"ID"}/>
           <PWInputBox type="text" placeholder={"PASSWORD"}/>
-          <LoginButton>로그인</LoginButton>
+          <LoginButton onClick={onClickLoginButton}>로그인</LoginButton>
+          {
+            showLoginLoader&&
+            <LoginLoader
+              className="fas fa-spinner fa-pulse"
+              style={{color: 'white', position: 'absolute', top: 22, right: 82}}/>
+          }
         </LoginForm>
       </HeaderContent>
     </HeaderContainer>
