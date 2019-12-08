@@ -263,7 +263,7 @@ const Home = () => {
           />
           <NetFlixRightArrow
             style={{opacity: (netflixCount===16?0.5:1)}}
-            onClick={() => {netflixCount===16 ? setNetflixCount(0) : setNetflixCount(netflixCount+8)}}
+            onClick={() => {netflixCount!==16 && setNetflixCount(netflixCount+8)}}
           />
           <NetflixImageArea>
             {
