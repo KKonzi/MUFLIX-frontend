@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+
 import {leftArrow,rightArrow} from '../images';
 import Header from './components/Header';
 import MovieModal from './components/MovieModal';
@@ -221,11 +223,15 @@ const Home = () => {
   const [netflixCount, setNetflixCount] = useState(0);
   const [musicCount, setMusicCount] = useState(0);
 
+  const [movieData, setMovieData] = useState([]);
+
   useEffect(() => {
     if(localStorage.MuflixLoginStatus === undefined) {
       localStorage.MuflixLoginStatus = false;
       localStorage.MuflixLoginId = '';
     }
+
+    setRenderingData();
   }, []);
 
   const openMovieModal = (movieId) => {
@@ -236,7 +242,12 @@ const Home = () => {
     setModalState(false);
   };
 
-
+  const setRenderingData = async () => {
+    const {data} = await axios.get(`http://1.201.141.81:5902/`);
+    // const data = await axios.post(`http://1.201.141.81:5902/test`,{'movieId': 1234});
+    console.log(data.movieData);
+    setMovieData(data.movieData);
+  };
 
   return (
     <Screen>

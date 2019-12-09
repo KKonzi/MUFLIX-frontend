@@ -115,7 +115,7 @@ const Header = () => {
       setLoginStatus(true);
       localStorage.MuflixLoginStatus = true;
       localStorage.MuflixLoginId = idValue;
-      // window.location.reload();
+      window.location.reload();
     },1200)
   };
   const onClickLogoutButton = () => {
@@ -124,6 +124,7 @@ const Header = () => {
     setLoginStatus(false);
     localStorage.MuflixLoginStatus = false;
     localStorage.MuflixLoginId = '';
+
   };
 
   return (

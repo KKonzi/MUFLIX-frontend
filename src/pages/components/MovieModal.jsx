@@ -38,8 +38,8 @@ const CloseButton = styled.img.attrs({
   height: 25px;
   
   position: absolute;
-  top: 40px;
-  right: 40px;
+  top: 30px;
+  right: 30px;
   cursor: pointer;
 `;
 
