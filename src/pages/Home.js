@@ -254,7 +254,7 @@ const Home = () => {
     // });
   };
 
-  const [clickedMovieId, setClickedMovieId] = useState(136873);
+  const [clickedMovieId, setClickedMovieId] = useState(0);
 
 
   const openMovieModal = (movieId) => {
@@ -272,8 +272,9 @@ const Home = () => {
 
   useEffect(() => {
     console.log('clickedMovieId',clickedMovieId);
-
-    return setModalState(true);
+    if(clickedMovieId!==0) {
+      setModalState(true);
+    }
   }, [clickedMovieId]);
 
   const closeMovieModal = () => {

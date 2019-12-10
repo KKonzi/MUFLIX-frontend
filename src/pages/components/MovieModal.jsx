@@ -266,12 +266,14 @@ const MovieModal = ({isOpen,close,movieId}) => {
   }, [movieId]);
 
   const setMovieData = async (movieId) => {
-    const {data} = await axios.post(`http://1.201.141.81:5902/movieInfo`,{'movieId': movieId});
-    setMovieInfo(data);
-    setMovieComments(data['comments']);
+    if(movieId!==0) {
+      const {data} = await axios.post(`http://1.201.141.81:5902/movieInfo`,{'movieId': movieId});
+      setMovieInfo(data);
+      setMovieComments(data['comments']);
 
-
-
+      console.log(data);
+      console.log(data['comments']);
+    }
   };
 
   const [starRate, setStarRate] = useState(5);
@@ -351,11 +353,9 @@ const MovieModal = ({isOpen,close,movieId}) => {
                         <CommentUserInfo>
                           <UserId>{data['user_id']}</UserId>
                           <CommentStar>
-                            <StarIcon className="fas fa-star"/>
-                            <StarIcon className="fas fa-star"/>
-                            <StarIcon className="fas fa-star"/>
-                            <StarIcon className="fas fa-star"/>
-                            <StarIcon className="fas fa-star"/>
+                            {
+                              data['starArr'].map(item => <StarIcon className="fas fa-star"/>)
+                            }
                           </CommentStar>
                         </CommentUserInfo>
                         <CommentContent>{data['comment']}</CommentContent>
