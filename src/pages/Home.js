@@ -5,8 +5,6 @@ import axios from 'axios';
 import {leftArrow,rightArrow} from '../images';
 import Header from './components/Header';
 import MovieModal from './components/MovieModal';
-import {movieImgSrc, netflixImgSrc, musicImgSrc} from './data'
-
 
 const Screen = styled.div`
   display: flex;
@@ -219,11 +217,17 @@ const MusicImage = styled.img`
 
 const Home = () => {
   const [isModalOpen, setModalState] = useState(false);
+
+  // 슬라이더용 변수
   const [movieCount, setMovieCount] = useState(0);
   const [netflixCount, setNetflixCount] = useState(0);
   const [musicCount, setMusicCount] = useState(0);
 
+  // 메인화면 데이터
   const [movieData, setMovieData] = useState([]);
+  const [netflixData, setNetflixData] = useState([]);
+  const [musicData, setMusicData] = useState([]);
+
 
   useEffect(() => {
     if(localStorage.MuflixLoginStatus === undefined) {
@@ -232,22 +236,51 @@ const Home = () => {
     }
 
     setRenderingData();
+
   }, []);
 
-  const openMovieModal = (movieId) => {
-    setModalState(true);
+  const setRenderingData = async () => {
+    const {data} = await axios.get(`http://1.201.141.81:5902/`);
+
+    setMovieData(data.movieData.reverse());
+    setNetflixData(data.netflixData);
+    setMusicData(data.musicData);
+
+    // axios.post(`http://1.201.141.81:5902/comments`,{
+    //   'movie_id': 136873,
+    //   'user_id': 'sangyousaase',
+    //   'star_num' : 5, //0~5 정수
+    //   'content' : '사융니그러지마sadsasd'
+    // });
   };
+
+  const [clickedMovieId, setClickedMovieId] = useState(136873);
+
+
+  const openMovieModal = (movieId) => {
+    if(movieId === 136873) {
+      updateNetFlixVedio();
+    }
+
+    setClickedMovieId(movieId);
+  };
+
+  const updateNetFlixVedio = async () => {
+    const {data} = await axios.get(`http://1.201.141.81:5902/getNetflixMovie`);
+    setNetflixData(data.netflixData);
+  }
+
+  useEffect(() => {
+    console.log('clickedMovieId',clickedMovieId);
+
+    return setModalState(true);
+  }, [clickedMovieId]);
 
   const closeMovieModal = () => {
     setModalState(false);
   };
 
-  const setRenderingData = async () => {
-    const {data} = await axios.get(`http://1.201.141.81:5902/`);
-    // const data = await axios.post(`http://1.201.141.81:5902/test`,{'movieId': 1234});
-    console.log(data.movieData);
-    setMovieData(data.movieData);
-  };
+
 
   return (
     <Screen>
@@ -264,8 +297,8 @@ const Home = () => {
             onClick={() => {!movieCount && setMovieCount(4)}}
           />
           <MovieImageArea>
-            {movieImgSrc.slice(movieCount,movieCount+4).map(imgSrc =>
-              <MovieImage src={imgSrc} onClick={()=>{openMovieModal(1)}}/>
+            {movieData.slice(movieCount,movieCount+4).map(data =>
+              <MovieImage src={data['movie_thumbnail_url']} onClick={()=>{openMovieModal(data['movie_id'])}}/>
             )}
           </MovieImageArea>
         </MovieArea>
@@ -284,9 +317,9 @@ const Home = () => {
           />
           <NetflixImageArea>
             {
-              netflixImgSrc.slice(netflixCount,netflixCount+8).map(imgSrc =>
-              <a href={`https://www.netflix.com/title/${80204927}`} target={`blank`}>
-                <NetflixImage src={imgSrc} video_id={`80204927`}/>
+              netflixData.slice(netflixCount,netflixCount+8).map(data =>
+              <a href={`https://www.netflix.com/title/${data['vedio_id']}`} target={`blank`}>
+                <NetflixImage src={data['netflix_thumbnail_url']} video_id={data['vedio_id']}/>
               </a>
               )
             }
@@ -306,16 +339,16 @@ const Home = () => {
             onClick={() => {!musicCount && setMusicCount(5)}}
           />
           <MusicImageArea>
-            {musicImgSrc.slice(musicCount,musicCount+5).map(imgSrc =>
-              <a href="https://music.naver.com">
-                <MusicImage src={imgSrc}/>
+            {musicData.slice(musicCount,musicCount+5).map(data =>
+              <a href={data['music_link_url']}>
+                <MusicImage src={data['music_thumbnail_url']}/>
               </a>
             )}
           </MusicImageArea>
         </MusicArea>
       </Container>
 
-      <MovieModal isOpen={isModalOpen} close={closeMovieModal}/>
+      <MovieModal isOpen={isModalOpen} close={closeMovieModal} movieId={clickedMovieId}/>
     </Screen>
   );
 };

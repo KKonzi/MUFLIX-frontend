@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import {closeButton, happyIcon, sadIcon} from '../../images';
+import axios from "axios";
 
 const ModalWrapper = styled.div`
 `
@@ -247,28 +248,31 @@ const CommentUserInfo = styled.div`
 const CommentContent = styled.div`
   font-weight: 300;
   width: 770px;
+  display: flex;
+  align-items: center;
 `
 
 const CommentStar = styled.div`
 
 `;
 
-const MovieModal = ({isOpen,close}) => {
+const MovieModal = ({isOpen,close,movieId}) => {
+  const [movieInfo, setMovieInfo] = useState({});
+  const [movieComments, setMovieComments] = useState([]);
 
-  const summary = `
-    내 마법의 힘은 어디서 왔을까?
-    나를 부르는 저 목소리는 누구지?
-    
-    어느 날 부턴가 의문의 목소리가 엘사를 부르고, 평화로운 아렌델 왕국을 위협한다.
-    트롤은 모든 것은 과거에서 시작되었음을 알려주며 엘사의 힘의 비밀과 진실을 찾아 떠나야한다고 조언한다.
-    
-    위험에 빠진 아렌델 왕국을 구해야만 하는 엘사와 안나는 숨겨진 과거의 진실을 찾아
-    크리스토프, 올라프 그리고 스벤과 함께 위험천만한 놀라운 모험을 떠나게 된다.
-    자신의 힘을 두려워했던 엘사는 이제 이 모험을 헤쳐나가기에 자신의 힘이 충분하다고 믿어야만 하는데…
-    
-    11월, 두려움을 깨고 새로운 운명을 만나다!
-    
-  `;
+  useEffect(() => {
+    console.log('movie modal',movieId);
+    setMovieData(movieId);
+  }, [movieId]);
+
+  const setMovieData = async (movieId) => {
+    const {data} = await axios.post(`http://1.201.141.81:5902/movieInfo`,{'movieId': movieId});
+    setMovieInfo(data);
+    setMovieComments(data['comments']);
+
+
+
+  };
 
   const [starRate, setStarRate] = useState(5);
 
@@ -288,10 +292,10 @@ const MovieModal = ({isOpen,close}) => {
               <CloseButton onClick={close}/>
 
               <MovieInfoContainer>
-                <MovieImage src={`http://image2.megabox.co.kr/mop/poster/2019/37/FC0155-CBED-48D6-B4F8-0F686D79CE86.large.jpg`}/>
+                <MovieImage src={movieInfo['movie_thumbnail_url']}/>
                 <MovieDetailContainer>
                   <MovieDetailContainerHeader>
-                    <MovieTitle>겨울왕국2</MovieTitle>
+                    <MovieTitle>{movieInfo['movie_title']}</MovieTitle>
                     <PreferenceButtonsContainer>
                       <HappyButton>
                         <HappyIcon/>
@@ -306,19 +310,19 @@ const MovieModal = ({isOpen,close}) => {
 
                   <OpenDate>
                     <DetailText>개봉일</DetailText>
-                    2019.11.21
+                    {movieInfo['open_date']}
                   </OpenDate>
                   <Actors>
                     <DetailText>출연진</DetailText>
-                    크리스틴 벨, 이디나 멘젤, 조시 게드, 조나단 그로프진
+                    {movieInfo['actors']}
                   </Actors>
                   <RunningTime>
                     <DetailText>상영시간</DetailText>
-                    103분
+                    {movieInfo['running_time']}분
                   </RunningTime>
                   <Summary>
                     <DetailText>줄거리</DetailText>
-                    {summary}
+                    {movieInfo['summary']}
                   </Summary>
                 </MovieDetailContainer>
               </MovieInfoContainer>
@@ -326,48 +330,38 @@ const MovieModal = ({isOpen,close}) => {
               <CommentContainer>
                 <UserCommentInputArea>
                   <UserInfoArea>
-                    <UserId>KKonzi</UserId>
+                    <UserId>{localStorage.MuflixLoginId}</UserId>
                     <StarContainer onChange={(e) => {onsStarSelectChange(e)}} defaultValue={5}>
                       <option value={1}>★</option>
                       <option value={2}>★★</option>
                       <option value={3}>★★★</option>
                       <option value={4}>★★★★</option>
-                      <option value={5}>★★★★★</option>
+                      <option value={5}>★★★★★</option>₩
                     </StarContainer>
                   </UserInfoArea>
+
                   <CommentInputArea/>
                   <CommentSubmitButton>등록</CommentSubmitButton>
                 </UserCommentInputArea>
 
                 <MovieCommentArea>
-
-                  <CommentBox>
-                    <CommentUserInfo>
-                      <UserId>KKonzi</UserId>
-                      <CommentStar>
-                        <StarIcon className="fas fa-star"/>
-                        <StarIcon className="fas fa-star"/>
-                        <StarIcon className="fas fa-star"/>
-                        <StarIcon className="fas fa-star"/>
-                        <StarIcon className="fas fa-star"/>
-                      </CommentStar>
-                    </CommentUserInfo>
-                    <CommentContent>{summary}</CommentContent>
-                  </CommentBox>
-
-                  <CommentBox>
-                    <CommentUserInfo>
-                      <UserId>KKonzi</UserId>
-                      <CommentStar>
-                        <StarIcon className="fas fa-star"/>
-                        <StarIcon className="fas fa-star"/>
-                        <StarIcon className="fas fa-star"/>
-                        <StarIcon className="fas fa-star"/>
-                        <StarIcon className="fas fa-star"/>
-                      </CommentStar>
-                    </CommentUserInfo>
-                    <CommentContent>{summary}{summary}</CommentContent>
-                  </CommentBox>
+                  {
+                    movieComments.map(data =>
+                      <CommentBox>
+                        <CommentUserInfo>
+                          <UserId>{data['user_id']}</UserId>
+                          <CommentStar>
+                            <StarIcon className="fas fa-star"/>
+                            <StarIcon className="fas fa-star"/>
+                            <StarIcon className="fas fa-star"/>
+                            <StarIcon className="fas fa-star"/>
+                            <StarIcon className="fas fa-star"/>
+                          </CommentStar>
+                        </CommentUserInfo>
+                        <CommentContent>{data['comment']}</CommentContent>
+                      </CommentBox>
+                    )
+                  }
                 </MovieCommentArea>
               </CommentContainer>
 
