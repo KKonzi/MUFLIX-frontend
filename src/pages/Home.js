@@ -341,7 +341,7 @@ const Home = () => {
           />
           <MusicImageArea>
             {musicData.slice(musicCount,musicCount+5).map(data =>
-              <a href={data['music_link_url']}>
+              <a href={`${data['music_link_url']}`}>
                 <MusicImage src={data['music_thumbnail_url']}/>
               </a>
             )}
