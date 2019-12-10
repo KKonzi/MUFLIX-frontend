@@ -245,13 +245,6 @@ const Home = () => {
     setMovieData(data.movieData.reverse());
     setNetflixData(data.netflixData);
     setMusicData(data.musicData);
-
-    // axios.post(`http://1.201.141.81:5902/comments`,{
-    //   'movie_id': 136873,
-    //   'user_id': 'sangyousaase',
-    //   'star_num' : 5, //0~5 정수
-    //   'content' : '사융니그러지마sadsasd'
-    // });
   };
 
   const [clickedMovieId, setClickedMovieId] = useState(0);
@@ -267,7 +260,14 @@ const Home = () => {
 
   const updateNetFlixVedio = async () => {
     const {data} = await axios.get(`http://1.201.141.81:5902/getNetflixMovie`);
+    // 넷플릭스 영상 업데이트
     setNetflixData(data.netflixData);
+    // 음악 업데이트
+    const tempMusicData = musicData;
+    const movingData = tempMusicData.splice(8,1);
+    console.log('movingData',movingData);
+    tempMusicData.unshift(movingData[0]);
+    setMusicData(tempMusicData);
   }
 
   useEffect(() => {

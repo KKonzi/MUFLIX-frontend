@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import {closeButton, happyIcon, sadIcon} from '../../images';
 import axios from "axios";
+import {addComment} from "@babel/types";
 
 const ModalWrapper = styled.div`
 `
@@ -269,7 +270,7 @@ const MovieModal = ({isOpen,close,movieId}) => {
     if(movieId!==0) {
       const {data} = await axios.post(`http://1.201.141.81:5902/movieInfo`,{'movieId': movieId});
       setMovieInfo(data);
-      setMovieComments(data['comments']);
+      setMovieComments(data['comments'].reverse());
 
       console.log(data);
       console.log(data['comments']);
@@ -277,11 +278,29 @@ const MovieModal = ({isOpen,close,movieId}) => {
   };
 
   const [starRate, setStarRate] = useState(5);
+  const [commentContent, setCommentContent] = useState(5);
 
-  const onsStarSelectChange = (event) => {
-    console.log('change value', event.target.value);
-    setStarRate(event.target.value);
+  const updateNetflixMovie = () => {
+    if(window.confirm('적용하시겠습니까?')) {
+      window.alert('적용되었습니다!');
+    }
   };
+
+  const addCommentToDB = async () => {
+    console.log('아이디',localStorage.MuflixLoginId,'별점',starRate,'댓글내용',commentContent);
+
+    const {data} = await axios.post(`http://1.201.141.81:5902/comments`,{
+      'movie_id': movieId,
+      'user_id': localStorage.MuflixLoginId,
+      'star_num' : starRate, //0~5 정수
+      'content' : commentContent
+    });
+
+    setMovieComments(data.reverse());
+  };
+
+
+
 
   return (
     <div>
@@ -299,7 +318,7 @@ const MovieModal = ({isOpen,close,movieId}) => {
                   <MovieDetailContainerHeader>
                     <MovieTitle>{movieInfo['movie_title']}</MovieTitle>
                     <PreferenceButtonsContainer>
-                      <HappyButton>
+                      <HappyButton onClick={updateNetflixMovie}>
                         <HappyIcon/>
                         재미있게 봤어요!
                       </HappyButton>
@@ -333,7 +352,7 @@ const MovieModal = ({isOpen,close,movieId}) => {
                 <UserCommentInputArea>
                   <UserInfoArea>
                     <UserId>{localStorage.MuflixLoginId}</UserId>
-                    <StarContainer onChange={(e) => {onsStarSelectChange(e)}} defaultValue={5}>
+                    <StarContainer onChange={(e) => {setStarRate(e.target.value)}} defaultValue={5}>
                       <option value={1}>★</option>
                       <option value={2}>★★</option>
                       <option value={3}>★★★</option>
@@ -342,8 +361,8 @@ const MovieModal = ({isOpen,close,movieId}) => {
                     </StarContainer>
                   </UserInfoArea>
 
-                  <CommentInputArea/>
-                  <CommentSubmitButton>등록</CommentSubmitButton>
+                  <CommentInputArea onChange={(e) => {setCommentContent(e.target.value)}}/>
+                  <CommentSubmitButton onClick={addCommentToDB}>등록</CommentSubmitButton>
                 </UserCommentInputArea>
 
                 <MovieCommentArea>
