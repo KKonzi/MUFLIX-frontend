@@ -260,8 +260,11 @@ const CommentStar = styled.div`
 const MovieModal = ({isOpen,close,movieId}) => {
   const [movieInfo, setMovieInfo] = useState({});
   const [movieComments, setMovieComments] = useState([]);
+  const [starRate, setStarRate] = useState(5);
+  const [commentContent, setCommentContent] = useState(5);
 
   useEffect(() => {
+    setStarRate(5);
     console.log('movie modal',movieId);
     setMovieData(movieId);
   }, [movieId]);
@@ -277,8 +280,6 @@ const MovieModal = ({isOpen,close,movieId}) => {
     }
   };
 
-  const [starRate, setStarRate] = useState(5);
-  const [commentContent, setCommentContent] = useState(5);
 
   const updateNetflixMovie = () => {
     if(window.confirm('적용하시겠습니까?')) {
@@ -322,7 +323,7 @@ const MovieModal = ({isOpen,close,movieId}) => {
                         <HappyIcon/>
                         재미있게 봤어요!
                       </HappyButton>
-                      <SadButton>
+                      <SadButton onClick={updateNetflixMovie}>
                         <SadIcon/>
                         제취향은 아니에요
                       </SadButton>
