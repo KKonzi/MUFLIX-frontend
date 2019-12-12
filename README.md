@@ -10,12 +10,15 @@ $ npm start
 ## 서버 코드
 https://github.com/KKonzi/MUFLIX-backend
 
+## 애트리뷰트 정리
+https://github.com/KKonzi/MUFLIX-frontend/issues/1
+
+## API 정리 
+https://github.com/KKonzi/MUFLIX-frontend/issues/2
+
 ## 발표영상
 https://classroom.google.com/u/0/c/NDQzOTUxMzkwNDZa/p/NDgyNDQ3ODMwODJa/details
 
 ## 참여자
-컴퓨터공학과 조민지
-컴퓨터공학과 이상윤
-컴퓨터공학과 김민우
-컴퓨터공학과 정훈용
+컴퓨터공학과 조민지, 컴퓨터공학과 이상윤, 컴퓨터공학과 김민우, 컴퓨터공학과 정훈용
 
